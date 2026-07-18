@@ -1,0 +1,893 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ClinicFlow AI — Intelligent Operations for Modern Healthcare</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --walnut:#6F4E37;
+    --caramel:#A47148;
+    --terracotta:#C97C5D;
+    --sand:#E8D8C4;
+    --cream:#F5EFE6;
+    --taupe:#EADCCB;
+    --mocha:#F2E6D8;
+    --ink:#2E211B;
+    --muted:#6D5C52;
+    --success:#2E8B57;
+    --border:#DCC7AC;
+    --shadow-sm: 0 1px 2px rgba(46,33,27,0.05);
+    --shadow-md: 0 10px 26px rgba(111,78,55,0.12), 0 2px 6px rgba(46,33,27,0.05);
+    --shadow-lg: 0 26px 64px rgba(111,78,55,0.18), 0 8px 20px rgba(46,33,27,0.08);
+    --radius:20px;
+    --maxw:1200px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;font-family:'Inter',sans-serif;color:var(--muted);
+    background:var(--cream);-webkit-font-smoothing:antialiased;line-height:1.6;
+  }
+  h1,h2,h3,h4{font-family:'Manrope',sans-serif;color:var(--ink);margin:0;letter-spacing:-0.02em;}
+  p{margin:0;}
+  a{color:inherit;text-decoration:none;}
+  img{max-width:100%;display:block;}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 32px;}
+  section{padding:118px 0;}
+  @media (max-width:768px){ section{padding:70px 0;} .wrap{padding:0 20px;} }
+
+  .eyebrow{
+    display:inline-flex;align-items:center;gap:8px;
+    font-weight:600;font-size:13px;letter-spacing:0.08em;text-transform:uppercase;
+    color:var(--walnut);background:var(--sand);
+    padding:7px 14px;border-radius:100px;margin-bottom:20px;
+  }
+  .eyebrow::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--terracotta);display:inline-block;}
+
+  header{
+    position:sticky;top:0;z-index:100;
+    background:rgba(245,239,230,0.88);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+    border-bottom:1px solid var(--border);
+  }
+  nav{max-width:var(--maxw);margin:0 auto;padding:0 32px;display:flex;align-items:center;justify-content:space-between;height:78px;}
+  .logo{display:flex;align-items:center;gap:10px;font-weight:800;font-size:19px;color:var(--ink);}
+  .logo-mark{
+    width:30px;height:30px;border-radius:9px;
+    background:linear-gradient(135deg,var(--caramel) 0%, var(--walnut) 100%);
+    position:relative;flex-shrink:0;
+  }
+  .logo-mark::after{
+    content:"";position:absolute;inset:9px;border-radius:2px;
+    background:linear-gradient(135deg, rgba(255,255,255,0.9), rgba(255,255,255,0.4));
+  }
+  .nav-links{display:flex;gap:32px;align-items:center;}
+  .nav-links a{font-size:14.5px;font-weight:500;color:var(--muted);transition:color .15s ease;}
+  .nav-links a:hover{color:var(--walnut);}
+  .nav-cta{display:flex;gap:12px;align-items:center;}
+  @media (max-width:960px){ .nav-links{display:none;} .nav-cta .btn-ghost{display:none;} }
+
+  .btn{
+    display:inline-flex;align-items:center;justify-content:center;gap:8px;
+    font-weight:600;font-size:14.5px;padding:13px 26px;border-radius:100px;
+    border:1px solid transparent;cursor:pointer;white-space:nowrap;
+    transition:transform .18s ease, box-shadow .18s ease, background .18s ease, border-color .18s ease;
+  }
+  .btn-primary{
+    background:linear-gradient(135deg,var(--caramel) 0%, var(--walnut) 100%);
+    color:#fff;box-shadow:0 8px 20px rgba(111,78,55,0.28);
+  }
+  .btn-primary:hover{transform:translateY(-2px);box-shadow:0 12px 28px rgba(111,78,55,0.34);}
+  .btn-ghost{background:var(--mocha);color:var(--ink);border-color:var(--border);}
+  .btn-ghost:hover{border-color:var(--walnut);color:var(--walnut);transform:translateY(-1px);}
+  .btn-sm{padding:10px 18px;font-size:13.5px;}
+
+  .hero{
+    padding:100px 0 40px;
+    background:
+      radial-gradient(680px 380px at 84% -8%, var(--sand) 0%, rgba(232,216,196,0) 68%),
+      var(--cream);
+  }
+  .hero-inner{display:grid;grid-template-columns:1.05fr 0.95fr;gap:56px;align-items:center;}
+  @media (max-width:960px){ .hero-inner{grid-template-columns:1fr;} }
+  .hero h1{font-size:50px;line-height:1.08;font-weight:800;}
+  @media (max-width:640px){ .hero h1{font-size:34px;} }
+  .hero h1 .accent{color:var(--terracotta);}
+  .hero p.lead{font-size:18px;color:var(--muted);margin-top:22px;max-width:520px;line-height:1.65;}
+  .hero-ctas{display:flex;gap:14px;margin-top:34px;flex-wrap:wrap;}
+  .hero-meta{display:flex;gap:28px;margin-top:44px;flex-wrap:wrap;}
+  .hero-meta div{font-size:13px;color:var(--muted);}
+  .hero-meta strong{display:block;font-family:'Manrope',sans-serif;color:var(--ink);font-size:22px;font-weight:800;}
+
+  /* Signature: operations console */
+  .console{
+    background:#2A1F17;
+    border-radius:22px;box-shadow:var(--shadow-lg);overflow:hidden;
+    border:1px solid #3a2c20;
+    transform:perspective(1400px) rotateY(-4deg) rotateX(1deg);
+  }
+  @media (max-width:960px){ .console{transform:none;} }
+  .console-bar{display:flex;align-items:center;gap:8px;padding:14px 18px;background:#33261b;border-bottom:1px solid #43331f;}
+  .console-dot{width:10px;height:10px;border-radius:50%;}
+  .console-title{margin-left:10px;font-size:12.5px;color:#c9b8a4;font-weight:500;letter-spacing:0.02em;}
+  .console-body{padding:22px;display:flex;flex-direction:column;gap:16px;}
+  .c-row{display:grid;grid-template-columns:1.3fr 1fr;gap:16px;}
+  @media (max-width:520px){ .c-row{grid-template-columns:1fr;} }
+  .c-card{background:#33261b;border:1px solid #43331f;border-radius:14px;padding:16px;}
+  .c-label{font-size:11px;text-transform:uppercase;letter-spacing:0.08em;color:#b09c85;font-weight:600;margin-bottom:10px;}
+  .c-kpis{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;}
+  .c-kpi{background:#33261b;border:1px solid #43331f;border-radius:14px;padding:14px;}
+  .c-kpi .num{font-family:'Manrope',sans-serif;font-size:21px;font-weight:800;color:#fdf8f2;}
+  .c-kpi .delta{font-size:11.5px;font-weight:600;margin-top:2px;}
+  .c-kpi .delta.up{color:#6fcf97;}
+  .c-kpi .delta.down{color:#e29b7f;}
+  .c-kpi .lbl{font-size:11px;color:#b09c85;margin-top:6px;}
+  .res-row{display:flex;align-items:center;gap:10px;font-size:12px;color:#ddcdba;margin-bottom:9px;}
+  .res-row:last-child{margin-bottom:0;}
+  .res-bar-track{flex:1;height:6px;background:#43331f;border-radius:4px;overflow:hidden;}
+  .res-bar-fill{height:100%;border-radius:4px;background:linear-gradient(90deg,var(--terracotta),#e3a37f);}
+  .res-pct{width:34px;text-align:right;color:#b09c85;font-variant-numeric:tabular-nums;}
+
+  .sec-head{max-width:640px;margin-bottom:56px;}
+  .sec-head.center{margin-left:auto;margin-right:auto;text-align:center;}
+  .sec-head h2{font-size:36px;font-weight:800;line-height:1.15;}
+  .sec-head p{font-size:16.5px;margin-top:16px;color:var(--muted);}
+
+  .band-taupe{background:var(--taupe);}
+  .band-dark{background:#2A1F17;color:#e9ddd0;}
+  .band-dark .sec-head h2, .band-dark h3, .band-dark h4{color:#fdf8f2;}
+  .band-dark .sec-head p, .band-dark p{color:#c9b8a4;}
+
+  .grid{display:grid;gap:20px;}
+  .grid-4{grid-template-columns:repeat(4,1fr);}
+  .grid-3{grid-template-columns:repeat(3,1fr);}
+  @media (max-width:960px){ .grid-4{grid-template-columns:repeat(2,1fr);} .grid-3{grid-template-columns:repeat(2,1fr);} }
+  @media (max-width:640px){ .grid-4,.grid-3{grid-template-columns:1fr;} }
+
+  .card{
+    background:var(--mocha);border:1px solid var(--border);border-radius:var(--radius);padding:28px;
+    transition:transform .2s ease, box-shadow .2s ease, border-color .2s ease;
+  }
+  .card:hover{transform:translateY(-4px);box-shadow:var(--shadow-md);border-color:var(--caramel);}
+  .card .icon{
+    width:44px;height:44px;border-radius:12px;background:var(--sand);
+    display:flex;align-items:center;justify-content:center;margin-bottom:18px;
+  }
+  .card h4{font-size:17px;font-weight:700;margin-bottom:8px;}
+  .card p{font-size:14.5px;color:var(--muted);}
+
+  .tag{
+    display:inline-block;padding:9px 16px;border-radius:100px;
+    background:var(--mocha);border:1px solid var(--border);font-size:13.5px;font-weight:500;color:var(--ink);
+  }
+  .tag-row{display:flex;flex-wrap:wrap;gap:10px;}
+
+  .why-list{display:flex;flex-direction:column;}
+  .why-item{display:grid;grid-template-columns:56px 1fr;gap:20px;padding:26px 0;border-top:1px solid var(--border);}
+  .why-item:last-child{border-bottom:1px solid var(--border);}
+  .why-num{font-family:'Manrope',sans-serif;font-weight:800;font-size:14px;color:var(--terracotta);display:flex;align-items:flex-start;padding-top:2px;}
+  .why-item h4{font-size:18px;margin-bottom:6px;}
+  .why-item p{font-size:14.5px;color:var(--muted);}
+
+  .split{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center;}
+  @media (max-width:900px){ .split{grid-template-columns:1fr;gap:36px;} }
+  .split.reverse .split-media{order:2;}
+  @media (max-width:900px){ .split.reverse .split-media{order:0;} }
+
+  .mini-panel{background:var(--mocha);border:1px solid var(--border);border-radius:var(--radius);padding:26px;}
+  .chip-list{display:flex;flex-direction:column;gap:14px;}
+  .chip-item{
+    display:flex;align-items:center;gap:12px;
+    background:var(--cream);border:1px solid var(--border);border-radius:12px;padding:14px 16px;
+    font-size:14px;font-weight:500;color:var(--ink);
+  }
+  .chip-dot{width:8px;height:8px;border-radius:50%;background:var(--terracotta);flex-shrink:0;}
+
+  .integ-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;}
+  @media (max-width:768px){ .integ-grid{grid-template-columns:repeat(2,1fr);} }
+  .integ-item{border:1px solid var(--border);border-radius:14px;padding:20px 16px;text-align:center;font-size:13.5px;font-weight:600;color:var(--ink);background:var(--mocha);}
+
+  .sec-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;}
+  @media (max-width:900px){ .sec-grid{grid-template-columns:repeat(2,1fr);} }
+  .sec-card{border:1px solid #43331f;border-radius:14px;padding:20px;background:#33261b;}
+  .sec-card h4{font-size:15px;margin-bottom:6px;}
+  .sec-card p{font-size:13px;}
+
+  .faq{max-width:760px;margin:0 auto;}
+  .faq-item{border-bottom:1px solid var(--border);}
+  .faq-q{
+    width:100%;text-align:left;background:none;border:none;cursor:pointer;
+    padding:22px 0;display:flex;justify-content:space-between;align-items:center;gap:20px;
+    font-family:'Manrope',sans-serif;font-weight:700;font-size:16.5px;color:var(--ink);
+  }
+  .faq-plus{
+    width:26px;height:26px;border-radius:50%;border:1px solid var(--border);
+    display:flex;align-items:center;justify-content:center;flex-shrink:0;position:relative;
+    transition:transform .25s ease;
+  }
+  .faq-plus::before,.faq-plus::after{content:"";position:absolute;background:var(--walnut);}
+  .faq-plus::before{width:11px;height:1.6px;}
+  .faq-plus::after{width:1.6px;height:11px;transition:transform .25s ease;}
+  .faq-item.open .faq-plus::after{transform:scale(0);}
+  .faq-item.open .faq-plus{transform:rotate(180deg);}
+  .faq-a{max-height:0;overflow:hidden;transition:max-height .3s ease;}
+  .faq-a p{padding-bottom:22px;font-size:14.5px;color:var(--muted);max-width:640px;}
+
+  .cta-band{
+    background:linear-gradient(135deg,var(--caramel) 0%, var(--walnut) 100%);
+    border-radius:28px;padding:64px 56px;text-align:center;color:#fff;position:relative;overflow:hidden;
+  }
+  .cta-band::before{content:"";position:absolute;inset:0;background:radial-gradient(420px 240px at 15% 0%, rgba(255,255,255,0.16), transparent 60%);}
+  .cta-band h2{color:#fff;font-size:32px;position:relative;}
+  .cta-band p{color:rgba(255,255,255,0.92);margin-top:14px;font-size:16px;position:relative;}
+  .cta-band .hero-ctas{justify-content:center;position:relative;}
+  .cta-band .btn-ghost{background:rgba(255,255,255,0.14);color:#fff;border-color:rgba(255,255,255,0.35);}
+  .cta-band .btn-ghost:hover{background:rgba(255,255,255,0.22);}
+  .cta-band .btn-primary{background:#fff;color:var(--walnut);box-shadow:none;}
+  .cta-band .btn-primary:hover{background:#fff;}
+  @media (max-width:640px){ .cta-band{padding:44px 26px;} }
+
+  footer{background:var(--taupe);border-top:1px solid var(--border);padding:64px 0 32px;}
+  .foot-grid{display:grid;grid-template-columns:1.6fr repeat(4,1fr);gap:32px;}
+  @media (max-width:900px){ .foot-grid{grid-template-columns:repeat(2,1fr);} }
+  .foot-grid h5{font-size:13px;text-transform:uppercase;letter-spacing:0.06em;color:var(--ink);font-weight:700;margin-bottom:16px;}
+  .foot-grid a{display:block;font-size:14px;color:var(--muted);margin-bottom:11px;}
+  .foot-grid a:hover{color:var(--walnut);}
+  .foot-bottom{
+    display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:14px;
+    margin-top:56px;padding-top:28px;border-top:1px solid var(--border);font-size:13px;color:var(--muted);
+  }
+
+  .modal-overlay{
+    position:fixed;inset:0;background:rgba(46,33,27,0.55);backdrop-filter:blur(3px);
+    display:none;align-items:flex-start;justify-content:center;z-index:1000;padding:48px 20px;overflow-y:auto;
+  }
+  .modal-overlay.open{display:flex;}
+  .modal{background:var(--cream);border-radius:22px;max-width:640px;width:100%;box-shadow:var(--shadow-lg);position:relative;animation:modalIn .25s ease;}
+  @keyframes modalIn{from{opacity:0;transform:translateY(14px) scale(.98);}to{opacity:1;transform:none;}}
+  .modal-head{display:flex;justify-content:space-between;align-items:flex-start;padding:30px 32px 0;}
+  .modal-close{
+    width:34px;height:34px;border-radius:50%;border:1px solid var(--border);background:var(--mocha);
+    cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;
+  }
+  .modal-body{padding:20px 32px 32px;}
+  .modal-body h3{font-size:24px;margin-bottom:8px;}
+  .modal-body p.sub{font-size:14.5px;color:var(--muted);margin-bottom:26px;}
+  .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+  @media (max-width:520px){ .form-grid{grid-template-columns:1fr;} }
+  .field{display:flex;flex-direction:column;gap:7px;margin-bottom:16px;}
+  .field.full{grid-column:1/-1;}
+  .field label{font-size:13px;font-weight:600;color:var(--ink);}
+  .field input, .field select, .field textarea{
+    font-family:'Inter',sans-serif;font-size:14.5px;color:var(--ink);
+    border:1px solid var(--border);border-radius:10px;padding:11px 14px;
+    background:var(--mocha);outline:none;transition:border-color .15s ease, background .15s ease;
+  }
+  .field input:focus, .field select:focus, .field textarea:focus{border-color:var(--walnut);background:#fff;}
+  .field textarea{resize:vertical;min-height:90px;font-family:'Inter',sans-serif;}
+  .form-submit{width:100%;justify-content:center;margin-top:6px;padding:14px;font-size:15px;}
+  .thanks{display:none;text-align:center;padding:12px 0 8px;}
+  .thanks.show{display:block;}
+  .thanks-icon{width:56px;height:56px;border-radius:50%;background:var(--sand);display:flex;align-items:center;justify-content:center;margin:0 auto 20px;}
+  .thanks h3{margin-bottom:10px;}
+  .thanks p{font-size:14.5px;color:var(--muted);max-width:420px;margin:0 auto 6px;}
+  .thanks .email-line{margin-top:16px;font-weight:600;color:var(--walnut);}
+
+  :focus-visible{outline:2px solid var(--walnut);outline-offset:2px;}
+  @media (prefers-reduced-motion: reduce){ *{animation:none !important;transition:none !important;} html{scroll-behavior:auto;} }
+  .reveal{opacity:0;transform:translateY(16px);transition:opacity .6s ease, transform .6s ease;}
+  .reveal.in{opacity:1;transform:none;}
+</style>
+</head>
+<body>
+
+<header>
+  <nav>
+    <a href="#top" class="logo"><span class="logo-mark"></span>ClinicFlow AI</a>
+    <div class="nav-links">
+      <a href="#platform">Platform</a>
+      <a href="#capabilities">AI Capabilities</a>
+      <a href="#solutions">Solutions</a>
+      <a href="#security">Security</a>
+      <a href="#about">About</a>
+      <a href="#faq">FAQs</a>
+    </div>
+    <div class="nav-cta">
+      <a href="#" class="btn btn-ghost btn-sm" data-open-modal="sales">Contact Sales</a>
+      <a href="#" class="btn btn-primary btn-sm" data-open-modal="demo">Request a Demo</a>
+    </div>
+  </nav>
+</header>
+
+<main id="top">
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="wrap hero-inner">
+      <div>
+        <div class="eyebrow">Enterprise AI for Healthcare Operations</div>
+        <h1>Optimize clinical workflows.<br>Reduce administrative <span class="accent">burden.</span></h1>
+        <p class="lead">ClinicFlow AI turns fragmented operational data into clear, actionable intelligence — scheduling optimization, patient flow, resource allocation, and executive reporting, built for hospitals, clinics, and healthcare networks.</p>
+        <div class="hero-ctas">
+          <a href="#" class="btn btn-primary" data-open-modal="demo">Request a Demo</a>
+          <a href="#" class="btn btn-ghost" data-open-modal="sales">Contact Sales</a>
+        </div>
+        <div class="hero-meta">
+          <div><strong>10+</strong>capabilities in one platform</div>
+          <div><strong>Azure</strong>enterprise-scale infrastructure</div>
+          <div><strong>API-first</strong>architecture</div>
+        </div>
+      </div>
+
+      <div class="console reveal">
+        <div class="console-bar">
+          <span class="console-dot" style="background:#e29b7f"></span>
+          <span class="console-dot" style="background:#e3c98f"></span>
+          <span class="console-dot" style="background:#6fcf97"></span>
+          <span class="console-title">clinicflow — operations console</span>
+        </div>
+        <div class="console-body">
+          <div class="c-kpis">
+            <div class="c-kpi">
+              <div class="num">92.4%</div>
+              <div class="delta up">▲ 3.8 pts</div>
+              <div class="lbl">Clinic utilization</div>
+            </div>
+            <div class="c-kpi">
+              <div class="num">14 min</div>
+              <div class="delta up">▼ 6 min</div>
+              <div class="lbl">Avg. wait time</div>
+            </div>
+            <div class="c-kpi">
+              <div class="num">312</div>
+              <div class="delta down">▼ 2.2%</div>
+              <div class="lbl">Scheduling conflicts</div>
+            </div>
+          </div>
+
+          <div class="c-row">
+            <div class="c-card">
+              <div class="c-label">Patient Flow — Outpatient Department</div>
+              <svg viewBox="0 0 300 90" width="100%" height="90" preserveAspectRatio="none">
+                <polyline points="0,60 30,55 60,58 90,42 120,44 150,28 180,32 210,18 240,22 270,12 300,14"
+                  fill="none" stroke="#C97C5D" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                <polyline points="0,60 30,55 60,58 90,42 120,44 150,28 180,32 210,18 240,22 270,12 300,14 300,90 0,90"
+                  fill="rgba(201,124,93,0.16)" stroke="none"/>
+                <line x1="180" y1="0" x2="180" y2="90" stroke="#43331f" stroke-dasharray="3,3"/>
+              </svg>
+            </div>
+            <div class="c-card">
+              <div class="c-label">Resource Allocation</div>
+              <div class="res-row"><span style="width:70px">Nursing</span><span class="res-bar-track"><span class="res-bar-fill" style="width:88%"></span></span><span class="res-pct">88%</span></div>
+              <div class="res-row"><span style="width:70px">Imaging</span><span class="res-bar-track"><span class="res-bar-fill" style="width:66%"></span></span><span class="res-pct">66%</span></div>
+              <div class="res-row"><span style="width:70px">Exam rooms</span><span class="res-bar-track"><span class="res-bar-fill" style="width:79%"></span></span><span class="res-pct">79%</span></div>
+              <div class="res-row"><span style="width:70px">Lab techs</span><span class="res-bar-track"><span class="res-bar-fill" style="width:54%"></span></span><span class="res-pct">54%</span></div>
+            </div>
+          </div>
+
+          <div class="c-card">
+            <div class="c-label">Capacity Forecast — Next 7 Days</div>
+            <svg viewBox="0 0 300 60" width="100%" height="60">
+              <rect x="0" y="30" width="30" height="20" rx="3" fill="#43331f"/>
+              <rect x="38" y="24" width="30" height="26" rx="3" fill="#43331f"/>
+              <rect x="76" y="16" width="30" height="34" rx="3" fill="#C97C5D"/>
+              <rect x="114" y="10" width="30" height="40" rx="3" fill="#C97C5D"/>
+              <rect x="152" y="20" width="30" height="30" rx="3" fill="#43331f"/>
+              <rect x="190" y="26" width="30" height="24" rx="3" fill="#43331f"/>
+              <rect x="228" y="14" width="30" height="36" rx="3" fill="#C97C5D"/>
+              <text x="0" y="10" fill="#c9b8a4" font-size="9" font-family="Inter">Projected peak demand: Wed &amp; Fri</text>
+            </svg>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PLATFORM OVERVIEW -->
+  <section id="platform">
+    <div class="wrap">
+      <div class="sec-head center">
+        <div class="eyebrow" style="margin-left:auto;margin-right:auto;display:inline-flex;">Intelligent healthcare operations</div>
+        <h2>Enormous volumes of operational data. Not enough time to act on it.</h2>
+        <p>Healthcare organizations generate enormous volumes of operational data every day, yet many administrative processes remain manual, fragmented, and time-consuming. ClinicFlow AI combines artificial intelligence, predictive analytics, workflow automation, and operational intelligence to help providers improve efficiency and make better operational decisions.</p>
+      </div>
+
+      <div class="grid grid-4">
+        <div class="card">
+          <div class="icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><rect x="3" y="5" width="18" height="16" rx="2" stroke="#6F4E37" stroke-width="2"/><path d="M3 9h18M8 3v4M16 3v4" stroke="#6F4E37" stroke-width="2" stroke-linecap="round"/></svg>
+          </div>
+          <h4>Intelligent Scheduling</h4>
+          <p>AI-driven recommendations that improve clinic utilization and reduce scheduling conflicts.</p>
+        </div>
+        <div class="card">
+          <div class="icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M3 12h5l2 5 4-14 2 9h5" stroke="#6F4E37" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <h4>Patient Flow Optimization</h4>
+          <p>Monitor patient movement across departments and identify operational bottlenecks.</p>
+        </div>
+        <div class="card">
+          <div class="icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><rect x="4" y="10" width="4" height="10" rx="1" stroke="#6F4E37" stroke-width="2"/><rect x="10" y="4" width="4" height="16" rx="1" stroke="#6F4E37" stroke-width="2"/><rect x="16" y="7" width="4" height="13" rx="1" stroke="#6F4E37" stroke-width="2"/></svg>
+          </div>
+          <h4>Resource Allocation</h4>
+          <p>Improve staff scheduling, room utilization, and equipment planning with predictive intelligence.</p>
+        </div>
+        <div class="card">
+          <div class="icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="8" stroke="#6F4E37" stroke-width="2"/><path d="M12 8v4l3 2" stroke="#6F4E37" stroke-width="2" stroke-linecap="round"/></svg>
+          </div>
+          <h4>Capacity Planning</h4>
+          <p>Forecast patient demand and operational workloads for better planning.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CORE FEATURES -->
+  <section class="band-taupe">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2>Everything your healthcare organization needs, in one intelligent platform</h2>
+        <p>A single operational system for clinical and administrative teams alike.</p>
+      </div>
+      <div class="grid grid-4">
+        <div class="card">
+          <h4>Clinical Operations Dashboard</h4>
+          <p>Real-time operational insights through centralized dashboards for administrators and managers.</p>
+        </div>
+        <div class="card">
+          <h4>Operational Analytics</h4>
+          <p>Transform operational data into actionable reports that support informed decision-making.</p>
+        </div>
+        <div class="card">
+          <h4>AI Workflow Automation</h4>
+          <p>Reduce repetitive administrative tasks by automating routine operational workflows.</p>
+        </div>
+        <div class="card">
+          <h4>Executive Intelligence</h4>
+          <p>AI-assisted summaries and operational reports that support leadership decision-making.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BUILT FOR MODERN HEALTHCARE PROVIDERS -->
+  <section id="solutions">
+    <div class="wrap split">
+      <div>
+        <div class="eyebrow">Built for modern healthcare providers</div>
+        <h2 style="font-size:32px;">From a private clinic to a multi-site network, the intelligence is already built for it.</h2>
+        <p style="margin-top:18px;font-size:15.5px;">Whether you're managing a private clinic, a multi-location healthcare network, a diagnostic center, or a specialty medical practice, ClinicFlow AI provides intelligent operational tools designed for healthcare organizations of every size.</p>
+      </div>
+      <div class="mini-panel">
+        <div class="tag-row">
+          <span class="tag">Hospitals</span>
+          <span class="tag">Private Clinics</span>
+          <span class="tag">Multi-Site Healthcare Networks</span>
+          <span class="tag">Diagnostic Laboratories</span>
+          <span class="tag">Imaging Centers</span>
+          <span class="tag">Outpatient Facilities</span>
+          <span class="tag">Specialist Medical Practices</span>
+          <span class="tag">Dental Networks</span>
+          <span class="tag">Rehabilitation Centers</span>
+          <span class="tag">Community Healthcare Organizations</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- AI CAPABILITIES -->
+  <section id="capabilities" class="band-dark">
+    <div class="wrap">
+      <div class="sec-head">
+        <div class="eyebrow" style="background:rgba(232,216,196,0.12);color:var(--sand);">Enterprise AI</div>
+        <h2>Enterprise AI built for clinical operations</h2>
+        <p>ClinicFlow AI combines multiple AI technologies to improve operational efficiency across healthcare environments.</p>
+      </div>
+      <div class="tag-row">
+        <span class="tag" style="background:#33261b;border-color:#43331f;color:#ecdfd0;">Large Language Models</span>
+        <span class="tag" style="background:#33261b;border-color:#43331f;color:#ecdfd0;">Machine Learning Forecasting</span>
+        <span class="tag" style="background:#33261b;border-color:#43331f;color:#ecdfd0;">Predictive Analytics</span>
+        <span class="tag" style="background:#33261b;border-color:#43331f;color:#ecdfd0;">Natural Language Processing</span>
+        <span class="tag" style="background:#33261b;border-color:#43331f;color:#ecdfd0;">Intelligent Workflow Automation</span>
+        <span class="tag" style="background:#33261b;border-color:#43331f;color:#ecdfd0;">Operational Intelligence Models</span>
+        <span class="tag" style="background:#33261b;border-color:#43331f;color:#ecdfd0;">Resource Optimization Algorithms</span>
+        <span class="tag" style="background:#33261b;border-color:#43331f;color:#ecdfd0;">Retrieval-Augmented Generation</span>
+        <span class="tag" style="background:#33261b;border-color:#43331f;color:#ecdfd0;">AI-Powered Reporting</span>
+        <span class="tag" style="background:#33261b;border-color:#43331f;color:#ecdfd0;">Decision Support Analytics</span>
+      </div>
+
+      <div class="grid grid-3" style="margin-top:44px;">
+        <div class="sec-card">
+          <h4>Operational Performance Monitoring</h4>
+          <p>Centralized dashboards providing visibility into appointments, efficiency, and workflow performance.</p>
+        </div>
+        <div class="sec-card">
+          <h4>Intelligent Scheduling</h4>
+          <p>AI-assisted scheduling recommendations that help maximize clinic capacity and reduce conflicts.</p>
+        </div>
+        <div class="sec-card">
+          <h4>Patient Journey Insights</h4>
+          <p>Understand how patients move through operational workflows to improve service delivery.</p>
+        </div>
+        <div class="sec-card">
+          <h4>Resource Optimization</h4>
+          <p>Predictive analytics to improve staffing decisions, room allocation, and equipment utilization.</p>
+        </div>
+        <div class="sec-card">
+          <h4>Executive Reporting</h4>
+          <p>Operational summaries and performance reports designed for strategic planning.</p>
+        </div>
+        <div class="sec-card">
+          <h4>Workflow Automation</h4>
+          <p>Automate repetitive administrative processes so teams can focus on patient care.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHY -->
+  <section>
+    <div class="wrap split reverse">
+      <div class="split-media">
+        <div class="mini-panel">
+          <div class="chip-list">
+            <div class="chip-item"><span class="chip-dot"></span>Reduce administrative complexity through automation</div>
+            <div class="chip-item"><span class="chip-dot"></span>Improve use of staff, facilities, and resources</div>
+            <div class="chip-item"><span class="chip-dot"></span>Transform operational data into business intelligence</div>
+            <div class="chip-item"><span class="chip-dot"></span>Support smoother, more consistent patient journeys</div>
+            <div class="chip-item"><span class="chip-dot"></span>Operate with healthcare-grade security &amp; governance</div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="eyebrow">Why healthcare organizations choose us</div>
+        <h2 style="font-size:32px;">Software that turns operational data into a leadership decision.</h2>
+        <div class="why-list" style="margin-top:24px;">
+          <div class="why-item">
+            <div class="why-num">01</div>
+            <div>
+              <h4>Operational efficiency</h4>
+              <p>Reduce administrative complexity through intelligent workflow automation.</p>
+            </div>
+          </div>
+          <div class="why-item">
+            <div class="why-num">02</div>
+            <div>
+              <h4>Better resource utilization</h4>
+              <p>Improve the use of staff, facilities, and operational resources.</p>
+            </div>
+          </div>
+          <div class="why-item">
+            <div class="why-num">03</div>
+            <div>
+              <h4>Improved patient experience</h4>
+              <p>Support smoother operational workflows that contribute to better patient journeys.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- INDUSTRIES -->
+  <section class="band-taupe">
+    <div class="wrap">
+      <div class="sec-head center">
+        <h2>Industries we support</h2>
+      </div>
+      <div class="tag-row" style="justify-content:center;">
+        <span class="tag">Hospitals</span>
+        <span class="tag">Private Healthcare Providers</span>
+        <span class="tag">Medical Clinics</span>
+        <span class="tag">Diagnostic Laboratories</span>
+        <span class="tag">Imaging Centers</span>
+        <span class="tag">Dental Practices</span>
+        <span class="tag">Rehabilitation Facilities</span>
+        <span class="tag">Specialty Care Centers</span>
+        <span class="tag">Community Healthcare Networks</span>
+        <span class="tag">Healthcare Management Organizations</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- INTEGRATIONS -->
+  <section>
+    <div class="wrap">
+      <div class="sec-head">
+        <div class="eyebrow">Platform integrations</div>
+        <h2>Fits into the healthcare technology you already use</h2>
+        <p>ClinicFlow AI is designed to integrate with modern healthcare technology ecosystems.</p>
+      </div>
+      <div class="integ-grid">
+        <div class="integ-item">Microsoft 365</div>
+        <div class="integ-item">Microsoft Teams</div>
+        <div class="integ-item">Outlook</div>
+        <div class="integ-item">EHR Systems</div>
+        <div class="integ-item">Hospital Information Systems</div>
+        <div class="integ-item">Microsoft Azure AI Services</div>
+        <div class="integ-item">Power BI</div>
+        <div class="integ-item">REST APIs</div>
+        <div class="integ-item">Enterprise Identity Providers</div>
+        <div class="integ-item">Secure Healthcare Data Platforms</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECURITY -->
+  <section id="security" class="band-dark">
+    <div class="wrap">
+      <div class="sec-head">
+        <div class="eyebrow" style="background:rgba(232,216,196,0.12);color:var(--sand);">Security &amp; compliance</div>
+        <h2>Security, privacy, and trust at the core</h2>
+        <p>ClinicFlow AI is designed using enterprise-grade security principles to help organizations protect operational and business information.</p>
+      </div>
+      <div class="sec-grid">
+        <div class="sec-card"><h4>End-to-end encryption</h4><p>Data protected in transit and at rest.</p></div>
+        <div class="sec-card"><h4>Role-based access control</h4><p>Granular permissions across your organization.</p></div>
+        <div class="sec-card"><h4>Multi-factor authentication</h4><p>Verified access at every login.</p></div>
+        <div class="sec-card"><h4>Audit logging</h4><p>Full visibility into platform activity.</p></div>
+        <div class="sec-card"><h4>Secure cloud storage</h4><p>Enterprise-grade data infrastructure.</p></div>
+        <div class="sec-card"><h4>API authentication</h4><p>Protected, authenticated integrations.</p></div>
+        <div class="sec-card"><h4>Enterprise identity integration</h4><p>Seamless SSO and identity integration.</p></div>
+        <div class="sec-card"><h4>Data governance controls</h4><p>Controls built for regulated environments.</p></div>
+      </div>
+      <p style="margin-top:40px;font-size:14px;color:#b09c85;">Architected as a cloud-native SaaS platform, ClinicFlow AI is designed to leverage Azure for GPU-backed AI inference and model deployment, secure cloud storage, managed databases, identity and access management, scalable APIs, search indexing, monitoring and observability, and high-availability infrastructure.</p>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="wrap" style="max-width:760px;">
+      <div class="eyebrow">About ClinicFlow AI</div>
+      <h2 style="font-size:32px;">Building intelligent software for modern healthcare operations</h2>
+      <p style="margin-top:20px;font-size:16px;">ClinicFlow AI is building intelligent software that helps healthcare organizations modernize operational workflows through responsible artificial intelligence. We believe healthcare professionals should spend less time managing administrative complexity and more time focusing on patient outcomes.</p>
+      <p style="margin-top:16px;font-size:16px;">ClinicFlow AI is led by an underrepresented founder committed to building secure, enterprise-ready AI solutions that improve operational efficiency across healthcare systems worldwide.</p>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section id="faq" class="band-taupe">
+    <div class="wrap">
+      <div class="sec-head center">
+        <h2>Frequently asked questions</h2>
+      </div>
+      <div class="faq">
+        <div class="faq-item">
+          <button class="faq-q">Is ClinicFlow AI an Electronic Health Record (EHR) system?<span class="faq-plus"></span></button>
+          <div class="faq-a"><p>No. ClinicFlow AI is designed to complement existing healthcare systems by providing AI-powered operational intelligence, workflow automation, scheduling optimization, and analytics.</p></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q">Can ClinicFlow AI integrate with our existing healthcare software?<span class="faq-plus"></span></button>
+          <div class="faq-a"><p>Yes. ClinicFlow AI is designed with an API-first architecture and can integrate with common healthcare information systems, scheduling platforms, and enterprise business applications.</p></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q">Is ClinicFlow AI suitable for small clinics?<span class="faq-plus"></span></button>
+          <div class="faq-a"><p>Yes. The platform is designed to support organizations ranging from independent clinics to multi-location healthcare networks.</p></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q">How does ClinicFlow AI help improve operations?<span class="faq-plus"></span></button>
+          <div class="faq-a"><p>ClinicFlow AI uses artificial intelligence and predictive analytics to streamline administrative workflows, optimize scheduling, improve resource allocation, and provide operational insights that support more informed decision-making.</p></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q">Is our organizational data secure?<span class="faq-plus"></span></button>
+          <div class="faq-a"><p>ClinicFlow AI is built with enterprise-grade security principles including encryption, authentication, role-based access controls, audit logging, and governance capabilities to help organizations safeguard sensitive operational information.</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FINAL CTA -->
+  <section>
+    <div class="wrap">
+      <div class="cta-band">
+        <h2>Ready to transform healthcare operations?</h2>
+        <p>Empower your healthcare organization with AI-powered operational intelligence designed for modern clinical environments.</p>
+        <div class="hero-ctas">
+          <a href="#" class="btn btn-primary" data-open-modal="demo">Request a Demo</a>
+          <a href="#" class="btn btn-ghost" data-open-modal="sales">Contact Sales</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <a href="#top" class="logo"><span class="logo-mark"></span>ClinicFlow AI</a>
+        <p style="margin-top:16px;font-size:14px;max-width:260px;">AI-powered clinical operations for hospitals, clinics, and healthcare networks.</p>
+      </div>
+      <div>
+        <h5>Platform</h5>
+        <a href="#platform">Overview</a>
+        <a href="#capabilities">AI Capabilities</a>
+        <a href="#security">Security</a>
+      </div>
+      <div>
+        <h5>Solutions</h5>
+        <a href="#solutions">Industries</a>
+        <a href="#solutions">Hospitals</a>
+        <a href="#solutions">Healthcare Networks</a>
+      </div>
+      <div>
+        <h5>Resources</h5>
+        <a href="#about">About</a>
+        <a href="#faq">FAQs</a>
+        <a href="#" data-open-modal="sales">Contact</a>
+      </div>
+      <div>
+        <h5>Get Started</h5>
+        <a href="#" data-open-modal="demo">Request a Demo</a>
+        <a href="mailto:info@clinicflowai.online">info@clinicflowai.online</a>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <div>© 2026 ClinicFlow AI. All rights reserved. · Privacy Policy · Terms of Service</div>
+    </div>
+  </div>
+</footer>
+
+<!-- MODAL: Request Demo / Contact Sales -->
+<div class="modal-overlay" id="modal-overlay">
+  <div class="modal">
+    <div class="modal-head">
+      <div></div>
+      <button class="modal-close" id="modal-close" aria-label="Close">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M4 4l16 16M20 4L4 20" stroke="#2E211B" stroke-width="2" stroke-linecap="round"/></svg>
+      </button>
+    </div>
+    <div class="modal-body">
+
+      <div id="form-view">
+        <h3 id="modal-title">See ClinicFlow AI in Action</h3>
+        <p class="sub" id="modal-sub">Complete the form below, and a member of our team will contact you to understand your organization's operational needs and arrange a personalized product demonstration.</p>
+
+        <form id="demo-form">
+          <div class="form-grid">
+            <div class="field"><label>Full Name</label><input type="text" required></div>
+            <div class="field"><label>Business Email</label><input type="email" required></div>
+            <div class="field"><label>Company Name</label><input type="text" required></div>
+            <div class="field"><label>Job Title</label><input type="text" required></div>
+            <div class="field full">
+              <label>Organization Type</label>
+              <select required>
+                <option value="">Select an option</option>
+                <option>Hospital</option>
+                <option>Private Clinic</option>
+                <option>Multi-Site Healthcare Network</option>
+                <option>Diagnostic Laboratory</option>
+                <option>Imaging Center</option>
+                <option>Dental Practice</option>
+                <option>Rehabilitation Center</option>
+                <option>Specialty Medical Practice</option>
+                <option>Community Healthcare Organization</option>
+                <option>Other</option>
+              </select>
+            </div>
+            <div class="field full">
+              <label>Primary Use Case</label>
+              <textarea placeholder="e.g. Appointment scheduling optimization, patient flow management, workflow automation…"></textarea>
+            </div>
+            <div class="field">
+              <label>Estimated Organization Size (Optional)</label>
+              <select>
+                <option value="">Select an option</option>
+                <option>1–20 Employees</option>
+                <option>21–100 Employees</option>
+                <option>101–500 Employees</option>
+                <option>501–2,000 Employees</option>
+                <option>2,000+ Employees</option>
+              </select>
+            </div>
+            <div class="field">
+              <label>Preferred Contact Method</label>
+              <select>
+                <option>Business Email</option>
+                <option>Microsoft Teams</option>
+                <option>Phone Call</option>
+              </select>
+            </div>
+            <div class="field full">
+              <label>Additional Information (Optional)</label>
+              <textarea placeholder="Tell us about your current operational challenges, existing systems, or goals."></textarea>
+            </div>
+          </div>
+          <button type="submit" class="btn btn-primary form-submit">Submit Request</button>
+        </form>
+      </div>
+
+      <div class="thanks" id="thanks-view">
+        <div class="thanks-icon">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none"><path d="M4 12l6 6L20 6" stroke="#6F4E37" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <h3>Thank you for your interest in ClinicFlow AI</h3>
+        <p>We've received your request. A member of our healthcare solutions team will contact you within 1–2 business days to schedule a personalized demonstration.</p>
+        <p class="email-line">info@clinicflowai.online</p>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script>
+  const overlay = document.getElementById('modal-overlay');
+  const modalTitle = document.getElementById('modal-title');
+  const modalSub = document.getElementById('modal-sub');
+  const formView = document.getElementById('form-view');
+  const thanksView = document.getElementById('thanks-view');
+  const demoForm = document.getElementById('demo-form');
+
+  function openModal(kind){
+    formView.style.display = 'block';
+    thanksView.classList.remove('show');
+    demoForm.reset();
+    if(kind === 'sales'){
+      modalTitle.textContent = 'Speak with Our Healthcare Solutions Team';
+      modalSub.textContent = "Whether you're exploring AI-powered healthcare operations, evaluating enterprise deployment, or planning a custom implementation, tell us about your organization and a member of our team will follow up.";
+    } else {
+      modalTitle.textContent = 'See ClinicFlow AI in Action';
+      modalSub.textContent = "Complete the form below, and a member of our team will contact you to understand your organization's operational needs and arrange a personalized product demonstration.";
+    }
+    overlay.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeModal(){
+    overlay.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  document.querySelectorAll('[data-open-modal]').forEach(el=>{
+    el.addEventListener('click', (e)=>{
+      e.preventDefault();
+      openModal(el.getAttribute('data-open-modal'));
+    });
+  });
+  document.getElementById('modal-close').addEventListener('click', closeModal);
+  overlay.addEventListener('click', (e)=>{ if(e.target === overlay) closeModal(); });
+  document.addEventListener('keydown', (e)=>{ if(e.key === 'Escape') closeModal(); });
+
+  demoForm.addEventListener('submit', function(e){
+    e.preventDefault();
+    formView.style.display = 'none';
+    thanksView.classList.add('show');
+  });
+
+  document.querySelectorAll('.faq-item').forEach(item=>{
+    const q = item.querySelector('.faq-q');
+    const a = item.querySelector('.faq-a');
+    q.addEventListener('click', ()=>{
+      const isOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq-item.open').forEach(other=>{
+        if(other !== item){
+          other.classList.remove('open');
+          other.querySelector('.faq-a').style.maxHeight = null;
+        }
+      });
+      if(isOpen){
+        item.classList.remove('open');
+        a.style.maxHeight = null;
+      } else {
+        item.classList.add('open');
+        a.style.maxHeight = a.scrollHeight + 'px';
+      }
+    });
+  });
+
+  const revealEls = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(entry=>{
+      if(entry.isIntersecting){ entry.target.classList.add('in'); io.unobserve(entry.target); }
+    });
+  }, {threshold:0.15});
+  revealEls.forEach(el=>io.observe(el));
+</script>
+
+</body>
+</html>
